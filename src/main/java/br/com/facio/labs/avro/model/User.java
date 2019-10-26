@@ -1,7 +1,11 @@
 package br.com.facio.labs.avro.model;
 
+import br.com.facio.labs.avro.utils.NullableDateAsLongEncoding;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.apache.avro.reflect.AvroEncode;
 
 /**
  *
@@ -11,6 +15,9 @@ public class User implements Serializable {
 
     private String fisrtName;
     private String lastName;
+   
+    @AvroEncode(using = NullableDateAsLongEncoding.class)
+    private Date created;
     private int age;
     private List<User> dependents;
     private Address addr;
@@ -18,12 +25,17 @@ public class User implements Serializable {
     public User() {        
     }
     
-    public User(String fisrtName, String lastName, int age, List<User> dependents, Address addr) {
+    public User(String fisrtName, String lastName, int age, List<User> dependents, Address addr, Date created) {
         this.fisrtName = fisrtName;
         this.lastName = lastName;
         this.age = age;
-        this.dependents = dependents;
+        if (dependents == null) {
+            this.dependents = new ArrayList<>();
+        } else {        
+            this.dependents = dependents;
+        }
         this.addr = addr;
+        this.created = created;
     }
 
     public String getFisrtName() {
@@ -32,6 +44,14 @@ public class User implements Serializable {
 
     public void setFisrtName(String fisrtName) {
         this.fisrtName = fisrtName;
+    }
+    
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public String getLastName() {
@@ -64,6 +84,13 @@ public class User implements Serializable {
 
     public void setAddr(Address addr) {
         this.addr = addr;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "fisrtName=" + fisrtName + ", lastName=" + lastName 
+                + ", created=" + created + ", age=" + age 
+                + ", dependents=" + dependents + ", addr=" + addr + '}';
     }
     
     

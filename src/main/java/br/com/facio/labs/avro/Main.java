@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.avro.Schema;
@@ -30,9 +32,9 @@ import org.apache.logging.log4j.Logger;
 public class Main {
     
     private static final Logger LOG = LogManager.getLogger(Main.class);
-    private static final int MAX_USERS_NUMBERS = 100000;
+    private static final int MAX_USERS_NUMBERS = 1;
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         LOG.info("Hello World !!!");
         
         LOG.info("Creating objects ...");
@@ -118,22 +120,23 @@ public class Main {
         }
     }
 
-    private static List<User> returnUser() {
+    private static List<User> returnUser() throws ParseException {
         List<User> users = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         User esposo = null;
         for (int i = 0; i < MAX_USERS_NUMBERS; i++) {
             Address addr1 = new Address("Rua Teste de Alcantara Luiz Fernandes Oliveira Ciceros",
                     666+i, "Bloco A apartamento 123", "Uberlândia", "Minas Gerais", "Brasil");
             Address addr2 = new Address("Rua Dom Pedro Segundo de Oliveira Fui",
                     999+i, "Bloco C apartamento 666", "São Paulo", "São Paulo", "Brasil");
-            User filho = new User("Josefino", "de Olieira Alcantara", 2, null, addr1);
-            User filha = new User("Abigail", "de Olieira Alcantara", 22, null, addr2);
-            User esposa = new User("Cirofantia", "Estatuaria Silva de Olieira Alcantara", 32, null, addr1);
+            User filho = new User("Josefino", "de Olieira Alcantara", 2, null, addr1, sdf.parse("24/10/2019 10:33:50"));
+            User filha = new User("Abigail", "de Olieira Alcantara", 22, null, addr2, sdf.parse("21/10/2019 22:12:21"));
+            User esposa = new User("Cirofantia", "Estatuaria Silva de Olieira Alcantara", 32, null, addr1, sdf.parse("12/10/2019 08:50:34"));
             List<User> dependentes = new ArrayList<User>();
             dependentes.add(filho);
             dependentes.add(filha);
             dependentes.add(esposa);
-            esposo = new User("Josefino", "de Olieira Alcantara", 40, dependentes, addr1);
+            esposo = new User("Josefino", "de Olieira Alcantara", 40, dependentes, addr1, null);
             users.add(esposo);
         }
         return users;
