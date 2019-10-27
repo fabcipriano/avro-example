@@ -6,7 +6,7 @@ import org.apache.avro.Schema;
 import org.apache.avro.io.Decoder;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.reflect.CustomEncoding;
-
+import org.apache.avro.AvroRuntimeException;
 /**
  * this must be generated with ReflectData.AllowNull.get().getSchema(X)
  *
@@ -22,8 +22,8 @@ public class NullableDateAsLongEncoding extends CustomEncoding<Date> {
     @Override
     protected void write(Object datum, Encoder out) throws IOException {
         if ( datum == null ) {            
-            out.writeIndex(1);
-            out.writeLong(0);
+            out.writeIndex(0);
+            out.writeNull();
         } else {            
             out.writeIndex(1);
             out.writeLong(((Date) datum).getTime());
@@ -36,12 +36,18 @@ public class NullableDateAsLongEncoding extends CustomEncoding<Date> {
             ((Date) reuse).setTime(in.readLong());
             return (Date) reuse;
         } else {
-            long index = in.readIndex();
-            long time = in.readLong();
-            if ( time == 0 ) {
-                return null;
+            int index = in.readIndex();
+            
+            switch (index) {
+                case 0:    
+                    in.readNull();
+                    return null;
+                case 1:
+                    return new Date( in.readLong() );
+                default:
+                    throw new AvroRuntimeException("Unexpected union branch");
             }
-            return new Date( time );
+            
         }
     }
 

@@ -74,16 +74,14 @@ public class Main {
         DataFileReader<User> in = new DataFileReader<User>(file, reader);
 
         int count = 0;
-        User last = null;
         for (User user : in) {
-            last = user;
+            LOG.debug("User.: {}, count.: {}", user, count);
             count++;
         }
 
         // close the input file
         in.close();
         LOG.info("Deserealized AVRO. time.: {} ms", System.currentTimeMillis() - start);
-        LOG.debug("Last User.: {}, count.: {}", last, count);
     }
 
     private static void serializeUsingJava(List<User> users) {
