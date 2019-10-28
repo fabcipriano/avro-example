@@ -1,0 +1,66 @@
+{
+  "type" : "record",
+  "name" : "User",
+  "namespace" : "br.com.facio.labs.avro.model",
+  "fields" : [ {
+    "name" : "primaryKey",
+    "type" : "long"
+  }, {
+    "name" : "fisrtName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "lastName",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "created",
+    "type" : [ "null", {
+      "type" : "long",
+      "CustomEncoding" : "NullableDateAsLongEncoding"
+    } ],
+    "default" : null
+  }, {
+    "name" : "age",
+    "type" : "int"
+  }, {
+    "name" : "dependents",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "User",
+      "java-class" : "java.util.List"
+    } ],
+    "default" : null
+  }, {
+    "name" : "addr",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Address",
+      "fields" : [ {
+        "name" : "street",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "number",
+        "type" : "int"
+      }, {
+        "name" : "complement",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "city",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "state",
+        "type" : [ "null", "string" ],
+        "default" : null
+      }, {
+        "name" : "country",
+        "type" : [ "null", "string" ],
+        "default" : null
+      } ]
+    } ],
+    "default" : null
+  } ]
+}

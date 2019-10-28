@@ -13,6 +13,7 @@ import org.apache.avro.reflect.AvroEncode;
  */
 public class User implements Serializable {
 
+    private long primaryKey;
     private String fisrtName;
     private String lastName;
    
@@ -25,7 +26,8 @@ public class User implements Serializable {
     public User() {        
     }
     
-    public User(String fisrtName, String lastName, int age, List<User> dependents, Address addr, Date created) {
+    public User(long primaryKey, String fisrtName, String lastName, int age, List<User> dependents, Address addr, Date created) {
+        this.primaryKey = primaryKey;
         this.fisrtName = fisrtName;
         this.lastName = lastName;
         this.age = age;
@@ -36,6 +38,14 @@ public class User implements Serializable {
         }
         this.addr = addr;
         this.created = created;
+    }
+
+    public long getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(long primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public String getFisrtName() {
@@ -88,7 +98,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "fisrtName=" + fisrtName + ", lastName=" + lastName 
+        return "User{" + "primaryKey=" + primaryKey + ", fisrtName=" + fisrtName + ", lastName=" + lastName 
                 + ", created=" + created + ", age=" + age 
                 + ", dependents=" + dependents + ", addr=" + addr + '}';
     }
